@@ -34,8 +34,10 @@ Copyright_License {
 class AsioThread final : protected Thread {
   boost::asio::io_service io_service;
 
+  boost::asio::io_service::work dummy;
+
 public:
-  AsioThread():Thread("asio") {}
+  AsioThread():Thread("asio"), dummy(io_service) {}
 
   /**
    * Start the thread.  This method should be called after creating
