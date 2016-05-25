@@ -44,7 +44,8 @@ WorkerThread::Run()
       if (_CheckStoppedOrSuspended())
         break;
 
-      trigger_cond.wait(mutex);
+      if (!trigger_flag)
+        trigger_cond.wait(mutex);
     }
 
     /* got the "stop" trigger? */
