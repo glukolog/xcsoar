@@ -151,6 +151,7 @@ extern const char StartMaxSpeed[];
 extern const char StartMaxSpeedMargin[];
 extern const char StartHeightRef[];
 extern const char StartType[];
+extern const char StartOnEnter[];
 extern const char StartRadius[];
 extern const char TurnpointType[];
 extern const char TurnpointRadius[];

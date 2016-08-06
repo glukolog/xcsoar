@@ -32,6 +32,7 @@ StartConstraints::SetDefaults()
   max_height = 0;
   max_height_ref = AltitudeReference::AGL;
   require_arm = false;
+  start_on_enter = false;
   fai_finish = false;
 }
 

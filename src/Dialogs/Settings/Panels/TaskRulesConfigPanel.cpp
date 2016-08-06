@@ -24,19 +24,22 @@ Copyright_License {
 #include "TaskRulesConfigPanel.hpp"
 #include "Profile/ProfileKeys.hpp"
 #include "Form/DataField/Enum.hpp"
+#include "Form/DataField/Boolean.hpp"
 #include "Interface.hpp"
 #include "Language/Language.hpp"
 #include "Widget/RowFormWidget.hpp"
 #include "UIGlobals.hpp"
 
 enum ControlIndex {
+  StartOnEnter,
+  spacer_1,
   StartMaxSpeed,
   StartMaxSpeedMargin,
-  spacer_1,
+  spacer_2,
   StartMaxHeight,
   StartMaxHeightMargin,
   StartHeightRef,
-  spacer_2,
+  spacer_3,
   FinishMinHeight,
   FinishHeightRef,
 };
@@ -59,6 +62,14 @@ TaskRulesConfigPanel::Prepare(ContainerWindow &parent, const PixelRect &rc)
 
   RowFormWidget::Prepare(parent, rc);
 
+  DataFieldBoolean *df_start_on_enter = new DataFieldBoolean(
+    task_behaviour.ordered_defaults.start_constraints.start_on_enter, _("Out/Enter"), _("In/Exit"));
+  Add(_("Start crossing"), _("Start point crossing boundary from inside/outside OZ."), df_start_on_enter);
+  SetExpertRow(StartOnEnter);
+
+  AddSpacer();
+  SetExpertRow(spacer_1);
+
   AddFloat(_("Start max. speed"), _("Maximum speed allowed in start observation zone.  Set to 0 for no limit."),
            _T("%.0f %s"), _T("%.0f"), 0, 300, 5, false, UnitGroup::HORIZONTAL_SPEED,
            task_behaviour.ordered_defaults.start_constraints.max_speed);
@@ -71,7 +82,7 @@ TaskRulesConfigPanel::Prepare(ContainerWindow &parent, const PixelRect &rc)
   SetExpertRow(StartMaxSpeedMargin);
 
   AddSpacer();
-  SetExpertRow(spacer_1);
+  SetExpertRow(spacer_2);
 
   AddFloat(_("Start max. height"),
            _("Maximum height based on start height reference (AGL or MSL) while starting the task.  "
@@ -101,7 +112,7 @@ TaskRulesConfigPanel::Prepare(ContainerWindow &parent, const PixelRect &rc)
   SetExpertRow(StartHeightRef);
 
   AddSpacer();
-  SetExpertRow(spacer_2);
+  SetExpertRow(spacer_3);
 
   AddFloat(_("Finish min. height"),
            _("Minimum height based on finish height reference (AGL or MSL) while finishing the task.  "
@@ -126,6 +137,9 @@ TaskRulesConfigPanel::Save(bool &_changed)
   ComputerSettings &settings_computer = CommonInterface::SetComputerSettings();
   TaskBehaviour &task_behaviour = settings_computer.task;
   OrderedTaskSettings &otb = task_behaviour.ordered_defaults;
+
+  changed |= SaveValue(StartOnEnter, ProfileKeys::StartOnEnter,
+                       otb.start_constraints.start_on_enter);
 
   changed |= SaveValue(StartMaxSpeed, UnitGroup::HORIZONTAL_SPEED,
                        ProfileKeys::StartMaxSpeed,

@@ -75,7 +75,7 @@ OrderedTaskFactoryDescription(TaskFactoryType type)
 static const TCHAR *const tp_factory_descriptions[] = {
   N_("A 90 degree sector with 1km radius. Cross corner edge from inside area to start."),
   N_("A straight line start gate.  Cross start gate from inside area to start."),
-  N_("A cylinder.  Exit area to start."),
+  N_("A cylinder. Cross boundary to start."),
   N_("A 90 degree sector with 'infinite' length sides.  Cross any edge, scored from "
      "corner point."),
   N_("(German rules) Any point within 1/2 km of center or 10km of a 90 degree sector.  "

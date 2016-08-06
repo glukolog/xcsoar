@@ -36,6 +36,7 @@ enum Controls {
   TASK_TYPE,
   MIN_TIME,
   START_REQUIRES_ARM,
+  START_ON_ENTER,
   START_OPEN_TIME,
   START_CLOSE_TIME,
   START_MAX_SPEED,
@@ -67,6 +68,8 @@ TaskPropertiesPanel::RefreshView()
   LoadValueTime(MIN_TIME, (int)p.aat_min_time);
 
   LoadValue(START_REQUIRES_ARM, p.start_constraints.require_arm);
+
+  LoadValue(START_ON_ENTER, p.start_constraints.start_on_enter);
 
   LoadValue(START_OPEN_TIME, p.start_constraints.open_time_span.GetStart());
   LoadValue(START_CLOSE_TIME, p.start_constraints.open_time_span.GetEnd());
@@ -116,6 +119,9 @@ TaskPropertiesPanel::ReadValues()
   }
 
   if (SaveValue(START_REQUIRES_ARM, p.start_constraints.require_arm))
+    changed = true;
+
+  if (SaveValue(START_ON_ENTER, p.start_constraints.start_on_enter))
     changed = true;
 
   RoughTime new_open = p.start_constraints.open_time_span.GetStart();
@@ -218,6 +224,9 @@ TaskPropertiesPanel::Prepare(ContainerWindow &parent, const PixelRect &rc)
   AddBoolean(_("Arm start manually"),
              _("Configure whether the start must be armed manually or automatically."),
              false);
+
+  DataFieldBoolean *df_start_on_enter = new DataFieldBoolean(false, _("Out/Enter"), _("In/Exit"), this);
+  Add(_("Start crossing"), _("Start point crossing boundary from inside/outside OZ."), df_start_on_enter);
 
   const RoughTimeDelta time_zone =
     CommonInterface::GetComputerSettings().utc_offset;

@@ -108,8 +108,8 @@ StartPoint::IsInSector(const AircraftState &state) const
 }
 
 bool
-StartPoint::CheckExitTransition(const AircraftState &ref_now,
-                                const AircraftState &ref_last) const
+StartPoint::CheckTimeInterval(const AircraftState &ref_now,
+                              const AircraftState &ref_last) const
 {
   if (!constraints.open_time_span.HasBegun(RoughTime::FromSecondOfDayChecked(unsigned(ref_last.time))))
     /* the start gate is not yet open when we left the OZ */
@@ -118,6 +118,14 @@ StartPoint::CheckExitTransition(const AircraftState &ref_now,
   if (constraints.open_time_span.HasEnded(RoughTime::FromSecondOfDayChecked(unsigned(ref_now.time))))
     /* the start gate was already closed when we left the OZ */
     return false;
+  return true;
+}
+
+bool
+StartPoint::CheckExitTransition(const AircraftState &ref_now,
+                                const AircraftState &ref_last) const
+{
+  if (!CheckTimeInterval(ref_now, ref_last)) return false; // Work time
 
   if (!constraints.CheckSpeed(ref_now.ground_speed, &margins) ||
       !constraints.CheckSpeed(ref_last.ground_speed, &margins))
@@ -143,4 +151,13 @@ StartPoint::CheckExitTransition(const AircraftState &ref_now,
   return !now_in_height && last_in_height
     && OrderedTaskPoint::IsInSector(ref_last)
     && CanStartThroughTop();
+}
+
+bool
+StartPoint::CheckEnterTransition(const AircraftState &ref_now,
+                                const AircraftState &ref_last) const
+{
+  if (!CheckTimeInterval(ref_now, ref_last)) return false; // Work time
+
+  return OrderedTaskPoint::CheckEnterTransition(ref_now, ref_last);
 }

@@ -71,6 +71,10 @@ public:
     return constraints.require_arm;
   }
 
+  bool IsOnEnter() const {
+    return constraints.start_on_enter;
+  }
+
   /**
    * Search for the min point on the boundary from
    * the aircraft state to the next point.  Should only
@@ -86,8 +90,13 @@ public:
   /* virtual methods from class TaskPoint */
   double GetElevation() const override;
 
+  bool CheckTimeInterval(const AircraftState &ref_now,
+                         const AircraftState &ref_last) const;
+
   /* virtual methods from class ScoredTaskPoint */
   bool CheckExitTransition(const AircraftState &ref_now,
+                           const AircraftState &ref_last) const override;
+  bool CheckEnterTransition(const AircraftState &ref_now,
                            const AircraftState &ref_last) const override;
 
   /* virtual methods from class OrderedTaskPoint */

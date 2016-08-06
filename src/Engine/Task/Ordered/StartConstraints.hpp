@@ -44,6 +44,9 @@ struct StartConstraints {
   /** Reference for max start height */
   AltitudeReference max_height_ref;
 
+  /** OZ of start point scored on enter */
+  bool start_on_enter;
+
   /**
    * Does the start point need to be armed manually?
    *

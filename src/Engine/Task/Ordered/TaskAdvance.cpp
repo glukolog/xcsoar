@@ -24,6 +24,7 @@
 #include "Task/Points/TaskPoint.hpp"
 #include "Points/AATPoint.hpp"
 #include "Points/ASTPoint.hpp"
+#include "Points/StartPoint.hpp"
 
 void
 TaskAdvance::Reset()
@@ -42,8 +43,11 @@ TaskAdvance::IsStateReady(const TaskPoint &tp,
   case TaskPointType::UNORDERED:
     gcc_unreachable();
 
-  case TaskPointType::START:
-    return x_exit;
+  case TaskPointType::START: {
+    const StartPoint &sp = (const StartPoint &)tp;
+    if (sp.IsOnEnter()) return x_enter;
+    else return x_exit;
+  }
 
   case TaskPointType::AAT: {
     const AATPoint &ap = (const AATPoint &)tp;

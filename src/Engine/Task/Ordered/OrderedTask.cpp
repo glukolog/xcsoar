@@ -592,6 +592,7 @@ OrderedTask::CheckTransitionPoint(OrderedTaskPoint &point,
 
     if (task_events != nullptr)
       task_events->EnterTransition(point);
+
   }
 
   if (nearby && point.TransitionExit(state, state_last, task_projection)) {
@@ -1131,6 +1132,10 @@ bool
 OrderedTask::TaskStarted(bool soft) const
 {
   if (taskpoint_start) {
+    // have realy start on_enter?
+    if (ordered_settings.start_constraints.start_on_enter && taskpoint_start->HasEntered())
+      return true;
+
     // have we really started?
     if (taskpoint_start->HasExited())
       return true;

@@ -264,6 +264,7 @@ Deserialise(OrderedTaskSettings &data, const ConstDataNode &node)
   node.GetAttribute(_T("start_max_height"), data.start_constraints.max_height);
   data.start_constraints.max_height_ref =
     GetHeightRef(node, _T("start_max_height_ref"));
+  node.GetAttribute(_T("start_on_enter"), data.start_constraints.start_on_enter);
   data.start_constraints.open_time_span =
     node.GetAttributeRoughTimeSpan(_T("start_open_time"),
                                    _T("start_close_time"));

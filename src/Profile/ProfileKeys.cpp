@@ -156,6 +156,7 @@ const char StartMaxHeightMargin[] = "StartMaxHeightMargin";
 const char StartMaxSpeedMargin[] = "StartMaxSpeedMargin";
 const char StartHeightRef[] = "StartHeightRef";
 const char StartType[] = "StartType";
+const char StartOnEnter[] = "StartOnEnter";
 const char StartRadius[] = "StartRadius";
 const char TurnpointType[] = "TurnpointType";
 const char TurnpointRadius[] = "TurnpointRadius";
